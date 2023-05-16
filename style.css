@@ -1,6 +1,7 @@
 :root {
-    --info-bar-color: green;
-    --window-color: gray;
+    --game-info-color: #0C0F21;
+    --window-color: #2E5050;
+    --border-color: #6C7C8C;
 }
 
 body {
@@ -19,9 +20,12 @@ body {
     flex-direction: column;
 }
 
-#info-bar {
-    background-color: var(--info-bar-color);
+#board {
+    border: 4px solid var(--border-color);
+    border-radius: 10px;
+}
 
+#info-bar {
     height: 100px;
 
     display: flex;
@@ -31,7 +35,9 @@ body {
 
 .game-info {
 
-    background-color: white;
+    background-color: var(--game-info-color);
+    border: 4px solid var(--border-color);
+    border-radius: 10px;
 
     height: 75px;
     width: 150px;
@@ -42,6 +48,12 @@ body {
     justify-content: center;
     align-items: center;
 
+}
+
+.game-info > p {
+    color: white;
+    font-family: sans-serif;
+    font-size: 15px;
 }
 
 

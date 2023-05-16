@@ -3,7 +3,7 @@ const BOARD_ROWS = 20;
 const BOARD_COLUMNS = 20;
 const SQUARE_SIZE = 30;
 
-const BOARD_COLOR = "black";
+const BOARD_COLOR = "#0C0F21";
 
 var board;
 var context;
@@ -13,7 +13,7 @@ var context;
 const SNAKE_INITIAL_X = 5;
 const SNAKE_INTIAL_Y = 5;
 
-const SNAKE_COLOR = "lime";
+const SNAKE_COLOR = "orange";
 
     //Snake head
 
@@ -35,7 +35,7 @@ var appleY;
 
 var eatenApples = 0
 
-const APPLE_COLOR = "red";
+const APPLE_COLOR = "lime";
 
 //Game
 
@@ -62,9 +62,11 @@ function refreshBoard() {
     
     if(!gameOver) {
 
+        //Paint board
         context.fillStyle = BOARD_COLOR;
         context.fillRect(0, 0, board.width, board.height);
 
+        //Paint apple
         context.fillStyle = APPLE_COLOR;
         context.fillRect(appleX, appleY, SQUARE_SIZE, SQUARE_SIZE);
 
@@ -72,6 +74,7 @@ function refreshBoard() {
             eatApple();
         }
 
+        //Paint snake
         for(let i = snakeBodyCoordinates.length-1; i > 0; i--) {
             snakeBodyCoordinates[i] = snakeBodyCoordinates[i-1];
         }
@@ -104,11 +107,6 @@ function refreshBoard() {
 
 }
 
-function placeRandomApple() {
-    appleX = Math.floor(Math.random() * BOARD_COLUMNS) * SQUARE_SIZE;
-    appleY = Math.floor(Math.random() * BOARD_ROWS) * SQUARE_SIZE;
-}
-
 function changeDirection(keyPressed) {
     if(keyPressed.code == "ArrowUp" && snakeDirection != "Down") {
         snakeDirectionX = 0;
@@ -129,11 +127,26 @@ function changeDirection(keyPressed) {
     } 
 }
 
+function eatApple() {
+    snakeBodyCoordinates.push([appleX, appleY])
+    eatenApples++;
+
+    var eatenApplesTag =  document.getElementById("eaten-apples");
+
+    eatenApplesTag.innerHTML = "Eaten apples: " + eatenApples;
+    
+    placeRandomApple();
+}
+
+function placeRandomApple() {
+    appleX = Math.floor(Math.random() * BOARD_COLUMNS) * SQUARE_SIZE;
+    appleY = Math.floor(Math.random() * BOARD_ROWS) * SQUARE_SIZE;
+}
+
 function handleGameOver() {
     gameOver = true;
 
-    updateHighscore();
-    
+    updateHighscore();  
 }
 
 function updateHighscore() {
@@ -144,15 +157,4 @@ function updateHighscore() {
 
         highscoreTag.innerHTML = "Highscore: " + highscore;
     }
-}
-
-function eatApple() {
-    snakeBodyCoordinates.push([appleX, appleY])
-    eatenApples++;
-
-    var eatenApplesTag =  document.getElementById("eaten-apples");
-
-    eatenApplesTag.innerHTML = "Eaten apples: " + eatenApples;
-    
-    placeRandomApple();
 }
