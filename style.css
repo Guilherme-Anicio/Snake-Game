@@ -1,0 +1,28 @@
+:root {
+    --info-bar-color: green;
+    --window-color: gray;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--window-color);
+
+    height: 100vh;
+}
+
+#info-bar {
+    background-color: var(--info-bar-color);
+
+    height: 75px;
+
+}
+
+#game {
+
+
+    display: flex;
+    flex-direction: column;
+}
