@@ -13,16 +13,35 @@ body {
     height: 100vh;
 }
 
-#info-bar {
-    background-color: var(--info-bar-color);
-
-    height: 75px;
-
-}
-
 #game {
-
 
     display: flex;
     flex-direction: column;
 }
+
+#info-bar {
+    background-color: var(--info-bar-color);
+
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-info {
+
+    background-color: white;
+
+    height: 75px;
+    width: 150px;
+
+    margin: 0 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+

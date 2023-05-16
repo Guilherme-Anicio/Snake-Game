@@ -33,7 +33,7 @@ const SNAKE_COLOR = "lime";
 var appleX;
 var appleY;
 
-var eatenApples
+var eatenApples = 0
 
 const APPLE_COLOR = "red";
 
@@ -43,7 +43,7 @@ var gameOver = false;
 
 //Highscore
 
-var highScore = 0;
+var highscore = 0;
 
 window.onload = function() {
 
@@ -69,10 +69,7 @@ function refreshBoard() {
         context.fillRect(appleX, appleY, SQUARE_SIZE, SQUARE_SIZE);
 
         if(appleX == snakeHeadX && appleY == snakeHeadY) {
-            snakeBodyCoordinates.push([appleX, appleY])
-            eatenApples++;
-            
-            placeRandomApple();
+            eatApple();
         }
 
         for(let i = snakeBodyCoordinates.length-1; i > 0; i--) {
@@ -95,14 +92,12 @@ function refreshBoard() {
         //Game over
 
         if(snakeHeadX < 0 || snakeHeadX > BOARD_COLUMNS * SQUARE_SIZE || snakeHeadY < 0 || snakeHeadY > BOARD_ROWS * SQUARE_SIZE) {
-            gameOver = true;
-            window.alert("gameover");
+            handleGameOver();
         }
 
         for(let i = 0; i < snakeBodyCoordinates.length; i++) {
             if(snakeHeadX == snakeBodyCoordinates[i][0] && snakeHeadY == snakeBodyCoordinates[i][1]) {
-                gameOver = true;
-                window.alert("gameover");
+                handleGameOver();
             }
         }
     }
@@ -132,4 +127,32 @@ function changeDirection(keyPressed) {
         snakeDirectionY = 0;
         snakeDirection = "Right";
     } 
+}
+
+function handleGameOver() {
+    gameOver = true;
+
+    updateHighscore();
+    
+}
+
+function updateHighscore() {
+    if(highscore < eatenApples) {
+        var highscoreTag = document.getElementById("highscore");
+
+        highscore = eatenApples;
+
+        highscoreTag.innerHTML = "Highscore: " + highscore;
+    }
+}
+
+function eatApple() {
+    snakeBodyCoordinates.push([appleX, appleY])
+    eatenApples++;
+
+    var eatenApplesTag =  document.getElementById("eaten-apples");
+
+    eatenApplesTag.innerHTML = "Eaten apples: " + eatenApples;
+    
+    placeRandomApple();
 }
