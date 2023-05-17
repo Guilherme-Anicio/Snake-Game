@@ -5,6 +5,8 @@
 }
 
 body {
+    min-width: 600px;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,7 +28,7 @@ body {
 }
 
 #info-bar {
-    height: 100px;
+    height: 150px;
 
     display: flex;
     justify-content: center;
@@ -54,6 +56,12 @@ body {
     color: white;
     font-family: sans-serif;
     font-size: 15px;
+}
+
+#you-lost-text {
+    color: white;
+    font-family: sans-serif;
+    font-size: 25px;
 }
 
 
