@@ -45,7 +45,7 @@ var gameOver = false;
 
 var highscore = 0;
 
-window.onload = function() {
+window.onload = function startGame() {
 
     board = document.getElementById("board");
     board.height = BOARD_ROWS * SQUARE_SIZE;
@@ -55,7 +55,7 @@ window.onload = function() {
 
     placeRandomApple();
     document.addEventListener("keyup", changeDirection);
-    setInterval(refreshBoard, 1000/10);
+    var gameInterval = setInterval(refreshBoard, 1000/10);
 }
 
 function refreshBoard() {
@@ -103,6 +103,8 @@ function refreshBoard() {
                 handleGameOver();
             }
         }
+    } else {
+        paintGameOverScreen();
     }
 
 }
@@ -161,9 +163,9 @@ function paintGameOverScreen() {
     var textWidth1 = context.measureText(text1).width;
     var textWidth2 = context.measureText(text2).width;
 
-    var x1 = ((board.width - textWidth1) / 2)-60    ;
+    var x1 = ((board.width - textWidth1) / 2);
     var y1 = (board.height + textSize) / 2;
-    var x2 = ((board.width - textWidth2) / 2) - 165;
+    var x2 = ((board.width - textWidth2) / 2);
     var y2 = ((board.height + textSize) / 2) + textSize;
 
     context.fillStyle = "white";
@@ -171,6 +173,7 @@ function paintGameOverScreen() {
     context.fillText(text1, x1, y1);
     context.fillText(text2, x2, y2);
 
+    document.addEventListener("keyup", restart);
 }
 
 function updateHighscore() {
@@ -180,5 +183,32 @@ function updateHighscore() {
         highscore = eatenApples;
 
         highscoreTag.innerHTML = "Highscore: " + highscore;
+    }
+}
+
+function restart(keyPressed) {
+    
+    if(keyPressed.code == "Enter") {
+        snakeHeadX = SQUARE_SIZE * SNAKE_INITIAL_X;
+        snakeHeadY = SQUARE_SIZE * SNAKE_INTIAL_Y;
+
+        snakeDirection = "";
+        snakeDirectionX = 0;
+        snakeDirectionY = 0;
+
+        snakeBodyCoordinates = [];
+
+        placeRandomApple();
+
+        eatenApples = 0;
+
+        gameOver = false;
+
+        document.removeEventListener("keyup", restart);
+        startGame();
+    } else {
+        document.removeEventListener("keyup", restart);
+        document.addEventListener("keyup", restart);
+        paintGameOverScreen();
     }
 }
