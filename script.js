@@ -39,7 +39,10 @@ const APPLE_COLOR = "lime";
 
 //Game
 
-var gameOver = false;
+var won = false;
+var winningMessage = "You won!"; 
+var lost = false;
+var losingMessage = "You lost!"; 
 
 //Highscore
 
@@ -60,7 +63,7 @@ window.onload = function startGame() {
 
 function refreshBoard() {
     
-    if(!gameOver) {
+    if(!won && !lost) {
 
         //Paint board
         context.fillStyle = BOARD_COLOR;
@@ -72,6 +75,12 @@ function refreshBoard() {
 
         if(appleX == snakeHeadX && appleY == snakeHeadY) {
             eatApple();
+
+            if(snakeBodyCoordinates.length == (BOARD_COLUMNS*BOARD_ROWS)-1) {
+                winGame();
+            } else{
+                placeRandomApple();
+            }
         }
 
         //Paint snake
@@ -104,7 +113,14 @@ function refreshBoard() {
             }
         }
     } else {
-        paintGameOverScreen();
+        if(won) {
+            paintGameOverScreen(winningMessage);
+        }
+
+        if(lost) {
+            paintGameOverScreen(losingMessage);
+        }
+        
     }
 
 }
@@ -136,8 +152,6 @@ function eatApple() {
     var eatenApplesTag =  document.getElementById("eaten-apples");
 
     eatenApplesTag.innerHTML = "Eaten apples: " + eatenApples;
-    
-    placeRandomApple();
 }
 
 function placeRandomApple() {
@@ -145,20 +159,27 @@ function placeRandomApple() {
     appleY = Math.floor(Math.random() * BOARD_ROWS) * SQUARE_SIZE;
 }
 
-function handleGameOver() {
-    gameOver = true;
+function winGame() {
+    won = true;
 
     updateHighscore();
 
-    paintGameOverScreen();
+    paintGameOverScreen(winningMessage);
 }
 
-function paintGameOverScreen() {
+function handleGameOver() {
+    lost = true;
+
+    updateHighscore();
+
+    paintGameOverScreen(losingMessage);
+}
+
+function paintGameOverScreen(text1) {
     context.fillStyle = BOARD_COLOR;
     context.fillRect(0, 0, board.width, board.height);
     
     var textSize = 40;
-    var text1 = "You lost!";
     var text2 = "Press Enter to play again"
     var textWidth1 = context.measureText(text1).width;
     var textWidth2 = context.measureText(text2).width;
@@ -202,13 +223,21 @@ function restart(keyPressed) {
 
         eatenApples = 0;
 
-        gameOver = false;
+        won = false;
+        lost = false;
 
         document.removeEventListener("keyup", restart);
         startGame();
     } else {
         document.removeEventListener("keyup", restart);
         document.addEventListener("keyup", restart);
-        paintGameOverScreen();
+        if(won) {
+            paintGameOverScreen(winningMessage);
+        }
+
+        if(lost) {
+            paintGameOverScreen(losingMessage);
+        }
+        
     }
 }
