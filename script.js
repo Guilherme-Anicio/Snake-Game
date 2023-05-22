@@ -48,7 +48,7 @@ var losingMessage = "You lost!";
 
 var highscore = 0;
 
-window.onload = function startGame() {
+function startGame() {
 
     board = document.getElementById("board");
     board.height = BOARD_ROWS * SQUARE_SIZE;
@@ -241,3 +241,5 @@ function restart(keyPressed) {
         
     }
 }
+
+startGame();
