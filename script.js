@@ -44,6 +44,8 @@ var winningMessage = "You won!";
 var lost = false;
 var losingMessage = "You lost!"; 
 
+var gameInterval
+
 //Highscore
 
 var highscore = 0;
@@ -58,10 +60,10 @@ function startGame() {
 
     placeRandomApple();
     document.addEventListener("keyup", changeDirection);
-    var gameInterval = setInterval(refreshBoard, 1000/10);
+    gameInterval = setInterval(refreshBoard, 1000/10);
 }
 
-function refreshBoard() {
+function refreshBoard(gameInterval) {
     
     if(!won && !lost) {
 
@@ -226,6 +228,7 @@ function restart(keyPressed) {
         won = false;
         lost = false;
 
+        clearInterval(gameInterval);
         document.removeEventListener("keyup", restart);
         startGame();
     } else {
